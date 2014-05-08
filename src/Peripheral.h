@@ -14,6 +14,7 @@
     NSUUID *proximityUUID;
     uint16_t major, minor;
     int8_t power;
+    BOOL ready;
 }
 
 @property (strong, nonatomic) CBPeripheralManager *manager;
@@ -22,5 +23,7 @@
                       major:(uint16_t)_major
                       minor:(uint16_t)_minor
               measuredPower:(int8_t)_power;
+- (void) startAdvertise;
+- (void) stopAdvertise;
 
 @end

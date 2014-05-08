@@ -18,7 +18,15 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+    switch(key) {
+        case '1':
+            beacon.startAdvertise();
+            break;
 
+        case '2':
+            beacon.stopAdvertise();
+            break;
+    }
 }
 
 //--------------------------------------------------------------

@@ -12,7 +12,7 @@
 #include "ofMain.h"
 
 #ifdef __OBJC__
-#include "Peripheral.h"
+@class Peripheral;
 #endif
 
 class ofxOsxBeaconPeripheral {

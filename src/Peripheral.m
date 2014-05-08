@@ -25,10 +25,14 @@
 -(id)initWithProximityUUID:(NSUUID *)_proximityUUID major:(uint16_t)_major minor:(uint16_t)_minor measuredPower:(int8_t)_power
 {
     [self init];
-    proximityUUID = _proximityUUID;
-    major = _major;
-    minor = _minor;
-    power = _power;
+    self->proximityUUID = _proximityUUID;
+    self->major = _major;
+    self->minor = _minor;
+    self->power = _power;
+    
+    self->ready = NO;
+
+    return self;
 }
 
 -(void)dealloc
@@ -41,7 +45,23 @@
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
     // Bluetoothがオンのときにアドバタイズする
     if (peripheral.state == CBPeripheralManagerStatePoweredOn) {
-        
+//        // アドバタイズ用のデータを作成
+//        MBCBeaconAdvertisementData *beaconData
+//        = [[MBCBeaconAdvertisementData alloc] initWithProximityUUID:proximityUUID
+//                                                              major:major
+//                                                              minor:minor
+//                                                      measuredPower:power];
+//        
+//        // アドバタイズ開始
+//        NSLog( peripheral == manager ? @"おなじ" : @"ちがう");
+//        [manager startAdvertising:beaconData.beaconAdvertisement];
+        ready = YES;
+    }
+}
+
+- (void)startAdvertise
+{
+    if (ready) {
         // アドバタイズ用のデータを作成
         MBCBeaconAdvertisementData *beaconData
         = [[MBCBeaconAdvertisementData alloc] initWithProximityUUID:proximityUUID
@@ -50,11 +70,12 @@
                                                       measuredPower:power];
         
         // アドバタイズ開始
-        [peripheral startAdvertising:beaconData.beaconAdvertisement];
+        [manager startAdvertising:beaconData.beaconAdvertisement];
     }
 }
 
-
-
-
+- (void)stopAdvertise
+{
+    [manager stopAdvertising];
+}
 @end
